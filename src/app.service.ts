@@ -1,8 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { VacationRequestDto } from './szabadsagkeres.dto';
 
 @Injectable()
-export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+export class VacationRequestService {
+  validateRequest(dto: VacationRequestDto): void {
+    const startDate = new Date(dto.startDate);
+    const endDate = new Date(dto.endDate);
+
+    if (startDate >= endDate) {
+      throw new BadRequestException('A kezdődátumnak korábbinak kell lennie a végsőnél!');
+    }
   }
 }
+export class AppService {}
